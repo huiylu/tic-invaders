@@ -13,7 +13,6 @@ A normal tic-tac-toe game transforming into space invaders. The winner becomes t
 ![](./img/Wireframe.PNG)
 
 # MVP Goals
-- [ ] Transform each filled box with 3 aliens
 - [ ] Have aliens move side to side
 - [ ] Establish Bounds
 - [ ] Have aliens move down a bit upon touching a side
@@ -27,3 +26,4 @@ A normal tic-tac-toe game transforming into space invaders. The winner becomes t
 - [ ] Have a scoreboard
 - [ ] Have some aliens drop buffs
 - [ ] Turn everything into an alien
+- [ ] Transform each filled box with 3 aliens
