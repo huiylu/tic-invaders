@@ -26,3 +26,4 @@ A normal tic-tac-toe game transforming into space invaders. The winner becomes t
 - [ ] Be able to reset
 - [ ] Have a scoreboard
 - [ ] Have some aliens drop buffs
+- [ ] Turn everything into an alien
