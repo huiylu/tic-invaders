@@ -1,7 +1,9 @@
 # Tic-Invaders
 What seemed to be an innocent game of tic-tac-toe turns into an invasion by the tic-tac-tonians.
-Have a game of tic-tac-toe which turns it into space invader once it is done. The O or X will turn into aliens or turn both
-into aliens upon a tie.
+Command your ship to shoot down the invader who won the tic-tac-toe game
+
+# About the Game
+A normal tic-tac-toe game transforming into space invaders. The winner becomes the invader or both will invade when there is a tie.
 
 # Tech Use
 - HTML
