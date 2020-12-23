@@ -7,6 +7,9 @@ into aliens upon a tie.
 - HTML
 - Javascript
 
+# WireFrame
+https://imgur.com/OQpUsd9
+
 # MVP Goals
 - [ ] Transform each filled box with 3 aliens
 - [ ] Have aliens move side to side
