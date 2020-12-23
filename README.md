@@ -23,3 +23,4 @@ https://imgur.com/OQpUsd9
 # Stretch Goals
 - [ ] Be able to reset
 - [ ] Have a scoreboard
+- [ ] Have some aliens drop buffs
