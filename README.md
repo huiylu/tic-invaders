@@ -8,7 +8,7 @@ into aliens upon a tie.
 - Javascript
 
 # WireFrame
-(./img/Wireframe.png)
+[!wireframe](./img/Wireframe.png)
 
 # MVP Goals
 - [ ] Transform each filled box with 3 aliens
