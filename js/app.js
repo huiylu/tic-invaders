@@ -33,21 +33,11 @@ document.addEventListener('DOMContentLoaded', function() {
     player=new Alien(30,140,15,5,'#black');
     playerGun=new Alien(player.x,player.y,5,5,'#black');
     document.addEventListener('keydown', movementHandler);
+    document.addEventListener('keydown', shoot);
     var runGame = setInterval(gameLoop, 60);
   })
 
-function Alien(x,y,width,height,color){
-    this.x = x
-    this.y = y
-    this.width = width
-    this.height = height
-    this.color= color
-    this.life=true
-    this.render = function(){
-        ctx.fillStyle = this.color;
-        ctx.fillRect(this.x,this.y,this.width,this.height);
-    }
-}
+
 
 function gameLoop(){
     ctx.clearRect(0, 0, game.width, game.height)
@@ -61,13 +51,16 @@ function gameLoop(){
     moveBullet();
     for(let i =0;i<3;i++){ 
       for(let j=0;j<3;j++){
+        for(let h=0;h<bullet.length;h++){
+          box[(i*3)+j].shooting(bullet[h]);
+        }
         box[(i*3)+j].render();
       }
     }
     xBounds();
     for(let i =0;i<3;i++){ 
       for(let j=0;j<3;j++){
-        console.log((i*3)+j);
+        //console.log((i*3)+j);
         box[(i*3)+j].sideMove();
       }
     }
@@ -86,15 +79,38 @@ function movementHandler(e) {   //Handles movement of player
       //case (83):
         //player.y += 10
         //break
-      case(32):
-        fireBullet();
-        break;
+      //case(32):
+        
+        //break;
       case (68):
         player.x +=10
     } 
+}
+
+function Alien(x,y,width,height,color){
+  this.x = x
+  this.y = y
+  this.width = width
+  this.height = height
+  this.color= color
+  this.life=true
+  this.render = function(){
+    if(this.life){
+      ctx.fillStyle = this.color;
+      ctx.fillRect(this.x,this.y,this.width,this.height);
+    }
   }
 
-  
+  this.shot=function(e){
+    //console.log("Test");
+    if((e.x>=this.x&&e.x<=this.x+width)&&
+       (e.y>=this.y&&e.y<=this.y+height)){
+       console.log("Test");
+      this.life=false
+       }
+    
+  }
+}  
 
 function boxAlien(row, column){
     var alien1=new Alien(10+row,10+column,15,5,'#black');
@@ -113,9 +129,6 @@ function boxAlien(row, column){
     }
     */
     this.sideMove=function(){
-      //console.log(xEdgeRight);
-      //console.log(xEdgeLeft);
-      //console.log(alien3.life);
       if(xEdgeRight>=285){
         direction=false;
         console.log(xEdgeRight);
@@ -135,7 +148,6 @@ function boxAlien(row, column){
         alien2.x -= 5;
         alien3.x -= 5;
       }
-      
     }
 
     this.downMove=function(){
@@ -154,9 +166,11 @@ function boxAlien(row, column){
       } else if(alien1.life){
         return alien1.x;
       }
+      /*
       else{
         return 0;
       }
+      */
 
     }
     this.lMA=function(){  //Left Most Alien x
@@ -168,10 +182,18 @@ function boxAlien(row, column){
       } else if(alien3.life){
         return alien3.x;
       }
+      /*
       else{
         return 0;
       }
+      */
 
+    }
+    this.shooting=function(e){
+      //console.log("Test");
+      alien1.shot(e);
+      alien2.shot(e);
+      alien3.shot(e);
     }
     
 }
@@ -222,5 +244,11 @@ function fireBullet(){
 function moveBullet(){
   for(let i=0;i<bullet.length;i++){
     bullet[i].y-=10;
+  }
+}
+
+function shoot(e){
+  if(e.keyCode==32){
+    fireBullet();
   }
 }

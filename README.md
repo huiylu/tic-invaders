@@ -13,12 +13,12 @@ A normal tic-tac-toe game transforming into space invaders. The winner becomes t
 ![](./img/Wireframe.PNG)
 
 # MVP Goals
-- [ ] Have aliens move side to side
-- [ ] Establish Bounds
-- [ ] Have aliens move down a bit upon touching a side
-- [ ] Make Player Ship
-- [ ] Make Player able to move side to side
-- [ ] Make player able to shoot
+- [X] Have aliens move side to side
+- [-] Establish Bounds
+- [X] Have aliens move down a bit upon touching a side
+- [X] Make Player Ship
+- [X] Make Player able to move side to side
+- [X] Make player able to shoot
 - [ ] Establish collision detection for the shot and alien
 
 # Stretch Goals

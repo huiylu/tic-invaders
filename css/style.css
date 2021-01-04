@@ -14,7 +14,7 @@ body {
     justify-content: center;
     border: 1px solid black;
     height: 700px;
-    width: 500px;
+    width: 700px;
     display: grid;
     grid-gap: 1em;
     grid-template-rows: .25fr .5fr .25fr;
