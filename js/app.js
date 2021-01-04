@@ -6,11 +6,13 @@ var ctx = game.getContext('2d')
 var direction = true;
 var alien;
 var player;
+var playerGun;
 var rightAlien;
 var leftAlien;
 var xEdgeRight=0;  //used as x bounds to move downwards
 var xEdgeLeft=0;
 var box=[];
+var bullet=[];
 
 /*    //Primary loop for all boxes
 for(let i =0;i<3;i++){ 
@@ -28,8 +30,8 @@ document.addEventListener('DOMContentLoaded', function() {
         box.push(new boxAlien(j*60,i*10));
       }
     }
-    player=new Alien(30,30,15,5,'#black');
-    
+    player=new Alien(30,140,15,5,'#black');
+    playerGun=new Alien(player.x,player.y,5,5,'#black');
     document.addEventListener('keydown', movementHandler);
     var runGame = setInterval(gameLoop, 60);
   })
@@ -53,6 +55,10 @@ function gameLoop(){
     
     
     player.render();
+    for(let i =0;i<bullet.length;i++){
+      bullet[i].render();
+    }
+    moveBullet();
     for(let i =0;i<3;i++){ 
       for(let j=0;j<3;j++){
         box[(i*3)+j].render();
@@ -66,45 +72,29 @@ function gameLoop(){
       }
     }
     //setTimeout(() => { console.log("World!"); }, 20000);
-    
-
 }
 
 function movementHandler(e) {   //Handles movement of player
     // up (w:87): y-=1; left (a:65): x-=1; down (s:83): y+=1; right (d:68): x+=1
     switch (e.keyCode) {
-      case (87):
-        player.y -= 10
-        break
+      //case (87):
+        //player.y -= 10
+        //break
       case (65):
         player.x -= 10
         break
-      case (83):
-        player.y += 10
-        break
+      //case (83):
+        //player.y += 10
+        //break
+      case(32):
+        fireBullet();
+        break;
       case (68):
         player.x +=10
     } 
   }
 
-  /*
-  function alienMoves(currentAlien){  //Handles movement of Aliens
-    if(direction){
-        currentAlien.x += 10;
-    }
-    else{
-        currentAlien.x -=10;
-    }
-    if(currentAlien.x>=300){
-        direction=false;
-        currentAlien.y+=10;
-    }
-    else if(currentAlien.x<=0){
-        direction=true;
-        currentAlien.y+=10;
-    }
-}
-*/
+  
 
 function boxAlien(row, column){
     var alien1=new Alien(10+row,10+column,15,5,'#black');
@@ -185,7 +175,10 @@ function boxAlien(row, column){
     }
     
 }
-
+//takes a box of aliens
+//find the left most aliens and right most aliens
+//obtains the x of said aliens
+//uses x as the bounds for movement
 function xBounds(){
   rightAlien=box[0].rMA();
   leftAlien=box[0].lMA();
@@ -209,7 +202,25 @@ function xBounds(){
   xEdgeLeft=leftAlien;
 }
 
-//takes a box of aliens
-//find the left most aliens and right most aliens
-//obtains the x of said aliens
-//uses x as the bounds for movement
+//handle bullet movement
+
+function Bullet(x,y){
+  this.x=x
+  this.y=y
+  this.width= 5
+  this.height = 5
+  this.color='green'
+  this.render= function(){
+    ctx.fillStyle = this.color;
+    ctx.fillRect(this.x,this.y,this.width,this.height);
+  }
+}
+function fireBullet(){
+  bullet.push(new Bullet(player.x,player.y));
+}
+
+function moveBullet(){
+  for(let i=0;i<bullet.length;i++){
+    bullet[i].y-=10;
+  }
+}
