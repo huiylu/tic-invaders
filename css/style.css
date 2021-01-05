@@ -10,10 +10,11 @@ body {
     background-repeat: space;
 }
 #container{
-    justify-content: center;
+    align-content: center;
     border: 1px solid black;
     height: 700px;
     width: 700px;
+    margin-left: 25%;
     display: grid;
     grid-gap: 1em;
     grid-template-rows: .25fr .5fr .25fr;

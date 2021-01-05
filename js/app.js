@@ -17,6 +17,7 @@ var gameState=true;
 var laser=[]; //shot by aliens to kill player
 var laserRate=5;
 var laserRateTime = null;
+var victory=false;
 //var runGame = setInterval(gameLoop, 1);
 
 
@@ -70,14 +71,20 @@ document.addEventListener('DOMContentLoaded', function() {
             
           }
           moveBullet();
-          
+          playerHit();
+          winCon();
           if(downMove){
             downMove=false;
           }
-          if(!gameState){
+          if(!gameState||!player.life){
             ctx.clearRect(0, 0, game.width, game.height)
-            ctx.font="30px Arial";
+            ctx.font="50px Arial";
             ctx.fillText("Game Over", 10, 50);
+            if(victory){
+              ctx.fillText("You Win", 10, 100);
+            }else{
+              ctx.fillText("You Lose", 10, 100);
+            }
             clearInterval(runGame);
           }
           //setTimeout(() => { console.log("World!"); }, 20000);
@@ -90,10 +97,10 @@ function movementHandler(e) {   //Handles movement of player
     // up (w:87): y-=1; left (a:65): x-=1; down (s:83): y+=1; right (d:68): x+=1
     switch (e.keyCode) {
       case (65):
-        player.x -= 10
+        player.x -= 5
         break
       case (68):
-        player.x +=10
+        player.x +=5
     } 
 }
 
@@ -136,7 +143,8 @@ function Alien(x,y,width,height,color){
   }
 
   this.alienShoots=function(){
-    if(((laserRateTime === null)||((new Date()).valueOf() - laserRateTime)>=(1000 / laserRate))&&Math.random()*100<=5&&this.life){
+    if(((laserRateTime === null)||((new Date()).valueOf() - laserRateTime)>=(1000 / laserRate))&&Math.random()*100<=1&&this.life&&(laser.length!=6||laser.length<=5)){
+      
       laser.push(new Bullet(this.x,this.y));
       laserRateTime=(new Date()).valueOf();
       //console.log('Test');
@@ -225,6 +233,15 @@ function boxAlien(row, column){
       alien2.alienShoots();
       alien3.alienShoots();
     }
+
+    this.boxDeath=function(){
+      if(!alien1.life&&!alien2.life&&!alien3.life){  //if is dead
+        return true;
+      }
+      else{
+        return false; //if an alien is alive
+      }
+    }
 }
 
 function xBounds(){
@@ -289,8 +306,8 @@ function moveBullet(){
   }
 
   for(let i=0;i<laser.length;i++){
-    laser[i].y+=10;
-    console.log(laser[i].length);
+    laser[i].y+=2;
+    //console.log(laser[i].length);
     if(laser[i].y>=150){
       laser.splice(i--,1);
     }
@@ -315,3 +332,26 @@ function Laser(x,y){
   }
 }
 
+function playerHit(){
+  for(let i =0;i<laser.length;i++){
+    if((laser[i].x>=player.x&&laser[i].x<=player.x+player.width)&&
+       (laser[i].y>=player.y&&laser[i].y<=player.y+player.height)){
+         gameState=false;
+         player.life=false;
+       
+        }
+      }
+}
+
+function winCon(){
+  for(let i=0;i<box.length;i++){
+    if(box[i].boxDeath()){ //check if dead
+      console.log(box[i].boxDeath())
+      gameState=false;
+      victory=true;
+    }else{
+      gameState=true;
+      break;
+    }
+  }
+}
