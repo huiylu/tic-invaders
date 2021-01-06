@@ -9,12 +9,22 @@ body {
     background-size: cover;
     background-repeat: space;
 }
-#container{
+
+
+canvas {
+    
+    
+}
+#game{
     align-content: center;
     border: 1px solid black;
     height: 700px;
     width: 700px;
     margin-left: 25%;
+    position: absolute;
+    left:0;
+    top:0;
+    z-index: 0;
     display: grid;
     grid-gap: 1em;
     grid-template-rows: .25fr .5fr .25fr;
@@ -24,15 +34,96 @@ body {
                       "game game game"
                       "game game game"
                       "btm-left btm-right btm-right";
+    visibility: hidden;
 }
-
-
-canvas {
-    background-color: white;
-    width: 100%;
-    height: 50vh;
-}
-
 main {
     grid-area: game;
 }
+
+.gameBoard{
+    display: inline-grid;
+    margin-bottom: 60px;
+    
+    grid-template-rows: 200px 200px ;
+    grid-template-columns: 200px 200px 200px;
+    line-height: 140px;
+    font-size: 100px;
+    
+  }
+  #grid1{
+    background-color: aqua;
+    height:150px;
+    grid-column: 1/1;
+    border: 1px solid black;
+  }
+  #grid2{
+    background-color: aqua;
+    height:150px;
+    grid-column: 2/2;
+    border: 1px solid black;
+  }
+  #grid3{
+    background-color: aqua;
+    height:150px;
+    grid-column: 3/3;
+    border: 1px solid black;
+  }
+  #grid4{
+    background-color: aqua;
+    height:150px;
+    grid-column: 4/4;
+    border: 1px solid black;
+  }
+  #grid5{
+    background-color: aqua;
+    height:150px;
+    grid-column: 5/6;
+    border: 1px solid black;
+  }
+  #grid6{
+    background-color: aqua;
+    height:150px;
+    grid-column: 6/6;
+    border: 1px solid black;
+  }
+  #grid7{
+    background-color: aqua;
+    height:150px;
+    grid-column: 7/7;
+    border: 1px solid black;
+  }
+  #grid8{
+    background-color: aqua;
+    height:150px;
+    grid-column: 8/8;
+    border: 1px solid black;
+  }
+  #grid9{
+    background-color: aqua;
+    height:150px;
+    grid-column: 9/9;
+    border: 1px solid black;
+  }
+
+  #winner{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 70%;
+    height: 200px;
+    line-height: 180px;
+    font-size: 100px;
+    color: white;
+    background-color: red;
+    justify-items: center;
+    border: 1px solid black;
+    
+  }
+  #turn{
+    font-size: 100px;
+    
+  }
+  #board{
+    opacity:1;
+  }
+

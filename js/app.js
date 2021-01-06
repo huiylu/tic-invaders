@@ -22,7 +22,7 @@ var victory=false;
 
 
 
-document.addEventListener('DOMContentLoaded', function() {
+function currentGame() {
     //box1= new boxAlien(0,0);
     //box2=new boxAlien(60,0);
     for(let i =2;i>-1;i--){
@@ -35,63 +35,12 @@ document.addEventListener('DOMContentLoaded', function() {
     
     document.addEventListener('keydown', movementHandler);
     document.addEventListener('keydown', shoot);
-    if(gameState){
-      var runGame = setInterval(function (){
-        
-          ctx.clearRect(0, 0, game.width, game.height)
-          movementDisplay.textContent = `X: ${player.x} Y: ${player.y}`
-          
-          
-          player.render();
-          for(let i =0;i<bullet.length;i++){
-            bullet[i].render();
-          }
-          for(let i =0;i<laser.length;i++){
-            laser[i].render();
-          }
-          
-          for(let i =0;i<box.length;i++){ 
-            
-              for(let h=0;h<bullet.length;h++){
-                if(box[i].shooting(bullet[h])){
-                  //console.log(box[i].shooting(bullet[h]));
-                  bullet.splice(h--,1);
-                }
-              }
-              box[i].render();
-            
-          }
-          xBounds();
-          alienDown();
-          for(let i =0;i<box.length;i++){ 
-            
-              //console.log((i*3)+j);
-              box[i].sideMove();
-              box[i].boxKill(player);
-            
-          }
-          moveBullet();
-          playerHit();
-          winCon();
-          if(downMove){
-            downMove=false;
-          }
-          if(!gameState||!player.life){
-            ctx.clearRect(0, 0, game.width, game.height)
-            ctx.font="50px Arial";
-            ctx.fillText("Game Over", 10, 50);
-            if(victory){
-              ctx.fillText("You Win", 10, 100);
-            }else{
-              ctx.fillText("You Lose", 10, 100);
-            }
-            clearInterval(runGame);
-          }
-          //setTimeout(() => { console.log("World!"); }, 20000);
-      
-      }, 60);
+    if(gameState&&winCon){
+      document.getElementById("board").style.opacity=0;
+      game.style.visibility='visible';
+      runGame();
     }
-})
+}
 
 function movementHandler(e) {   //Handles movement of player
     // up (w:87): y-=1; left (a:65): x-=1; down (s:83): y+=1; right (d:68): x+=1
@@ -343,7 +292,7 @@ function playerHit(){
       }
 }
 
-function winCon(){
+function winCondition(){
   for(let i=0;i<box.length;i++){
     if(box[i].boxDeath()){ //check if dead
       console.log(box[i].boxDeath())
@@ -354,4 +303,133 @@ function winCon(){
       break;
     }
   }
+}
+
+function runGame(){
+  currentGame=setInterval(function (){
+    
+    ctx.clearRect(0, 0, game.width, game.height)
+    //movementDisplay.textContent = `X: ${player.x} Y: ${player.y}`
+    
+    
+    player.render();
+    for(let i =0;i<bullet.length;i++){
+      bullet[i].render();
+    }
+    for(let i =0;i<laser.length;i++){
+      laser[i].render();
+    }
+    
+    for(let i =0;i<box.length;i++){ 
+      
+        for(let h=0;h<bullet.length;h++){
+          if(box[i].shooting(bullet[h])){
+            //console.log(box[i].shooting(bullet[h]));
+            bullet.splice(h--,1);
+          }
+        }
+        box[i].render();
+      
+    }
+    xBounds();
+    alienDown();
+    for(let i =0;i<box.length;i++){ 
+      
+        //console.log((i*3)+j);
+        box[i].sideMove();
+        box[i].boxKill(player);
+      
+    }
+    moveBullet();
+    playerHit();
+    winCondition();
+    if(downMove){
+      downMove=false;
+    }
+    if(!gameState||!player.life){
+      ctx.clearRect(0, 0, game.width, game.height)
+      ctx.font="50px Arial";
+      ctx.fillText("Game Over", 10, 50);
+      if(victory){
+        ctx.fillText("You Win", 10, 100);
+      }else{
+        ctx.fillText("You Lose", 10, 100);
+      }
+      clearInterval(currentGame);
+    }
+    //setTimeout(() => { console.log("World!"); }, 20000);
+  
+  }, 60);
+
+}
+
+var ticMark="O"
+var winCon=false;
+var winner="";
+
+var grid;
+
+
+function placeO(grid){
+    if(!winCon){
+        if(ticMark==="X"){
+            if(document.getElementById(grid).innerText===""){
+                document.getElementById(grid).innerText = ticMark;
+                ticMark="O";
+            }
+        }else if(ticMark==="O"){
+            if(document.getElementById(grid).innerText===""){
+                document.getElementById(grid).innerText = ticMark;
+                ticMark="X";
+            }
+        }
+        checkWin();
+        
+    }
+    document.getElementById("turn").innerText=ticMark+"'s Turn";
+    
+}
+
+function checkWin(){
+    if((document.getElementById("grid1").innerText==="O"&&document.getElementById("grid2").innerText==="O"&&document.getElementById("grid3").innerText==="O")
+        ||(document.getElementById("grid4").innerText==="O"&&document.getElementById("grid5").innerText==="O"&&document.getElementById("grid6").innerText==="O")
+        ||(document.getElementById("grid7").innerText==="O"&&document.getElementById("grid8").innerText==="O"&&document.getElementById("grid9").innerText==="O")
+        ||(document.getElementById("grid1").innerText==="O"&&document.getElementById("grid4").innerText==="O"&&document.getElementById("grid7").innerText==="O")
+        ||(document.getElementById("grid3").innerText==="O"&&document.getElementById("grid6").innerText==="O"&&document.getElementById("grid9").innerText==="O")
+        ||(document.getElementById("grid2").innerText==="O"&&document.getElementById("grid5").innerText==="O"&&document.getElementById("grid8").innerText==="O")
+        ||(document.getElementById("grid1").innerText==="O"&&document.getElementById("grid5").innerText==="O"&&document.getElementById("grid9").innerText==="O")
+        ||(document.getElementById("grid3").innerText==="O"&&document.getElementById("grid5").innerText==="O"&&document.getElementById("grid7").innerText==="O")
+        ){
+            winCon=true;
+            winner="O";
+            document.getElementById("winner").innerText=winner +" is the Winner";
+            setTimeout(currentGame,500);
+        }else if((document.getElementById("grid1").innerText==="X"&&document.getElementById("grid2").innerText==="X"&&document.getElementById("grid3").innerText==="X")
+        ||(document.getElementById("grid4").innerText==="X"&&document.getElementById("grid5").innerText==="X"&&document.getElementById("grid6").innerText==="X")
+        ||(document.getElementById("grid7").innerText==="X"&&document.getElementById("grid8").innerText==="X"&&document.getElementById("grid9").innerText==="X")
+        ||(document.getElementById("grid1").innerText==="X"&&document.getElementById("grid4").innerText==="X"&&document.getElementById("grid7").innerText==="X")
+        ||(document.getElementById("grid3").innerText==="X"&&document.getElementById("grid6").innerText==="X"&&document.getElementById("grid9").innerText==="X")
+        ||(document.getElementById("grid2").innerText==="X"&&document.getElementById("grid5").innerText==="X"&&document.getElementById("grid8").innerText==="X")
+        ||(document.getElementById("grid1").innerText==="X"&&document.getElementById("grid5").innerText==="X"&&document.getElementById("grid9").innerText==="X")
+        ||(document.getElementById("grid3").innerText==="X"&&document.getElementById("grid5").innerText==="X"&&document.getElementById("grid7").innerText==="X")
+        ){
+            winCon=true;
+            winner="X";
+            document.getElementById("winner").innerText=winner +" is the Winner";
+            setTimeout(currentGame,500);
+        }else if(document.getElementById("grid1").innerText!==""&&
+        document.getElementById("grid2").innerText!==""&&
+        document.getElementById("grid3").innerText!==""&&
+        document.getElementById("grid4").innerText!==""&&
+        document.getElementById("grid5").innerText!==""&&
+        document.getElementById("grid6").innerText!==""&&
+        document.getElementById("grid7").innerText!==""&&
+        document.getElementById("grid8").innerText!==""&&
+        document.getElementById("grid9").innerText!==""){
+            winCon=true;
+            winner="Nobody";
+            document.getElementById("winner").innerText="Tie";
+            setTimeout(currentGame,500);
+        }
+
 }
