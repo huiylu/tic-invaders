@@ -18,6 +18,8 @@ var laser=[]; //shot by aliens to kill player
 var laserRate=5;
 var laserRateTime = null;
 var victory=false;
+var boardOpacity=1;
+//"url("../img/Explosion.png");
 //var runGame = setInterval(gameLoop, 1);
 
 
@@ -30,15 +32,20 @@ function currentGame() {
         box.push(new boxAlien(j*60,i*10));
       }
     }
-    player=new Alien(30,140,15,5,'#black');
-    playerGun=new Alien(player.x,player.y,5,5,'#black');
+    player=new Alien(30,140,15,5,'white');
+    playerGun=new Alien(player.x,player.y,5,5,'white');
     
     document.addEventListener('keydown', movementHandler);
     document.addEventListener('keydown', shoot);
     if(gameState&&winCon){
       document.getElementById("board").style.opacity=0;
       game.style.visibility='visible';
-      runGame();
+      transiton();
+      setTimeout(()=>{
+        document.getElementById("screen").style.backgroundImage="url('./img/Space.jpg')";
+      },500);
+      setTimeout(runGame,1000);
+      //runGame();
     }
 }
 
@@ -46,10 +53,20 @@ function movementHandler(e) {   //Handles movement of player
     // up (w:87): y-=1; left (a:65): x-=1; down (s:83): y+=1; right (d:68): x+=1
     switch (e.keyCode) {
       case (65):
+        if(player.x>=0){
         player.x -= 5
+        }
+        else{
+          player.x+=5
+        }
         break
       case (68):
+        if(player.x<=285){
         player.x +=5
+        }
+        else{
+          player.x-=5
+        }
     } 
 }
 
@@ -230,7 +247,7 @@ function Bullet(x,y){
   this.y=y
   this.width= 1
   this.height = 3
-  this.color='#green'
+  this.color="white"
   this.render= function(){
     ctx.fillStyle = this.color;
     ctx.fillRect(this.x,this.y,this.width,this.height);
@@ -274,7 +291,7 @@ function Laser(x,y){
   this.y=y
   this.width= 1
   this.height = 3
-  this.color='#green'
+  this.color='green'
   this.render= function(){
     ctx.fillStyle = this.color;
     ctx.fillRect(this.x,this.y,this.width,this.height);
@@ -432,4 +449,9 @@ function checkWin(){
             setTimeout(currentGame,500);
         }
 
+}
+
+function transiton(){
+  document.getElementById("screen").style.backgroundImage="url('./img/Explosion.png')";
+  
 }
